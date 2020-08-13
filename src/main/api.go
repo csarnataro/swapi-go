@@ -7,9 +7,9 @@ import (
 	"net/http"
 
 	"github.com/apex/gateway" // <- gateway to AWS lambda functions
+	"github.com/csarnataro/swapi-go/src/film"
+	"github.com/csarnataro/swapi-go/src/films"
 	"github.com/julienschmidt/httprouter"
-	"io.github.csarnataro/swapi-go/src/film"
-	"io.github.csarnataro/swapi-go/src/films"
 )
 
 func main() {

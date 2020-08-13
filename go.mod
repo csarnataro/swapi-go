@@ -1,4 +1,4 @@
-module io.github.csarnataro/swapi-go
+module github.com/csarnataro/swapi-go
 
 go 1.14
 

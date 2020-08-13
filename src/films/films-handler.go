@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/csarnataro/swapi-go/src/constants"
 	"github.com/julienschmidt/httprouter"
-	"io.github.csarnataro/swapi-go/src/constants"
 )
 
 func sendNotFoundError(w http.ResponseWriter) {

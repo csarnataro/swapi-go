@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strconv"
 
-	"io.github.csarnataro/swapi-go/src/constants"
-	"io.github.csarnataro/swapi-go/src/models"
+	"github.com/csarnataro/swapi-go/src/constants"
+	"github.com/csarnataro/swapi-go/src/models"
 )
 
 var errNotFound = errors.New("Not found")
