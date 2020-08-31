@@ -28,8 +28,8 @@ func main() {
 		fmt.Fprintf(w, "Hello, %s!\n", ps.ByName("name"))
 	})
 
-	router.GET("/api/films", films.Handler)
-	router.GET("/api/films/:id", film.Handler)
+	router.GET("/films", films.Handler)
+	router.GET("/films/:id", film.Handler)
 
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, router))
