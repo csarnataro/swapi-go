@@ -31,6 +31,10 @@ func main() {
 	router.GET("/films", films.Handler)
 	router.GET("/films/:id", film.Handler)
 
+	router.GET("/", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		fmt.Fprintf(w, "It works!\n")
+	})
+
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, router))
 }
