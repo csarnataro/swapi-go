@@ -47,7 +47,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 	err := filepath.Walk("/var",
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
-				return err
+				return nil
 			}
 			fmt.Println(path, info.Size())
 			return nil
