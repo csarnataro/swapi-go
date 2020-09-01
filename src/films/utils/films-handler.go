@@ -44,7 +44,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 		ex = "."
 	}
 
-	err := filepath.Walk(".",
+	err := filepath.Walk(ex,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
