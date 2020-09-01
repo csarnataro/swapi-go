@@ -33,7 +33,7 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", film.Handler)
+	mux.HandleFunc("/1", film.Handler)
 
 	mux.HandleFunc("/ok", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "OK")
