@@ -9,7 +9,6 @@ import (
 	"strconv"
 
 	"github.com/csarnataro/swapi-go/src/constants"
-	"github.com/julienschmidt/httprouter"
 )
 
 func sendNotFoundError(w http.ResponseWriter) {
@@ -18,7 +17,7 @@ func sendNotFoundError(w http.ResponseWriter) {
 }
 
 // Handler returns the full list of films
-func Handler(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var pageNumber uint64 = 1
