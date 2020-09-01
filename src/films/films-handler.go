@@ -1,12 +1,8 @@
 package films
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/csarnataro/swapi-go/src/constants"
 )
@@ -20,45 +16,46 @@ func sendNotFoundError(w http.ResponseWriter) {
 func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var pageNumber uint64 = 1
-	var conversionError error = nil
-	page := r.URL.Query().Get("page") // .params.ByName("page")
-	if page != "" {
-		pageNumber, conversionError = strconv.ParseUint(page, 10, 0)
-		if conversionError != nil {
-			sendNotFoundError(w)
-			return
-		}
-	} else {
-		pageNumber = 1
-	}
+	fmt.Fprintf(w, `{"result": "ok"}`)
+	// var pageNumber uint64 = 1
+	// var conversionError error = nil
+	// page := r.URL.Query().Get("page") // .params.ByName("page")
+	// if page != "" {
+	// 	pageNumber, conversionError = strconv.ParseUint(page, 10, 0)
+	// 	if conversionError != nil {
+	// 		sendNotFoundError(w)
+	// 		return
+	// 	}
+	// } else {
+	// 	pageNumber = 1
+	// }
 
-	fmt.Println("Requested page number:", pageNumber)
+	// fmt.Println("Requested page number:", pageNumber)
 
-	content, err := ioutil.ReadFile("./data/films.json")
-	if err != nil {
-		fmt.Fprint(w, "Some error occurred: ", err)
-	} else {
-		var entries []FilmEntry
-		// parsing JSON file
-		err := json.Unmarshal(content, &entries)
-		if err != nil {
-			log.Fatal(fmt.Println("error:", err))
-		}
-		result, err := buildResult(entries, pageNumber)
+	// content, err := ioutil.ReadFile("./data/films.json")
+	// if err != nil {
+	// 	fmt.Fprint(w, "Some error occurred: ", err)
+	// } else {
+	// 	var entries []FilmEntry
+	// 	// parsing JSON file
+	// 	err := json.Unmarshal(content, &entries)
+	// 	if err != nil {
+	// 		log.Fatal(fmt.Println("error:", err))
+	// 	}
+	// 	result, err := buildResult(entries, pageNumber)
 
-		if err != nil {
-			sendNotFoundError(w)
-			return
-		}
-		// firstFilm := originalJSON[0]
-		destJSON, err := json.Marshal(result)
-		if err != nil {
-			fmt.Fprintf(w, "Error: %s", err.Error())
-			return
-		}
-		fmt.Fprintf(w, "%s", destJSON)
-	}
+	// 	if err != nil {
+	// 		sendNotFoundError(w)
+	// 		return
+	// 	}
+	// 	// firstFilm := originalJSON[0]
+	// 	destJSON, err := json.Marshal(result)
+	// 	if err != nil {
+	// 		fmt.Fprintf(w, "Error: %s", err.Error())
+	// 		return
+	// 	}
+	// 	fmt.Fprintf(w, "%s", destJSON)
+	// }
 }
 
 // func timer(h http.Handler) http.Handler {

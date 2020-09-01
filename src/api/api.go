@@ -33,8 +33,7 @@ func main() {
 	// router.GET("/", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// 	fmt.Fprintf(w, "It works!\n")
 	// })
-	http.HandleFunc("/films", films.Handler)
-	http.HandleFunc("/film", films.Handler)
+	http.HandleFunc("/", films.Handler)
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
 }
