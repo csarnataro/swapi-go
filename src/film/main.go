@@ -40,7 +40,7 @@ func main() {
 	})
 
 	fmt.Printf("Server listening on port %d...\n", *port)
-	log.Fatal(listener(portStr, nil))
+	log.Fatal(listener(portStr, mux))
 }
 
 // package main
