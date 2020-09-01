@@ -6,6 +6,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"path"
+	"path/filepath"
 	"strconv"
 
 	"github.com/csarnataro/swapi-go/src/constants"
@@ -36,7 +39,10 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 
 	fmt.Println("Requested page number:", pageNumber)
 
-	content, err := ioutil.ReadFile("./data/films.json")
+	ex, _ := os.Executable()
+	exPath := path.Join(filepath.Dir(ex), "data", "films.json")
+
+	content, err := ioutil.ReadFile(exPath)
 	if err != nil {
 		fmt.Fprint(w, "Some error occurred: ", err)
 	} else {

@@ -21,48 +21,8 @@ func main() {
 		listener = http.ListenAndServe
 	}
 
-	// router := httprouter.New()
-
-	// router.GET("/hello/:name", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// 	fmt.Fprintf(w, "Hello, %s!\n", ps.ByName("name"))
-	// })
-
 	http.HandleFunc("/", films.Handler)
 
-	// router.GET("/healthcheck", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// 	fmt.Fprintf(w, "OK\n")
-	// })
-
-	http.HandleFunc("/ok", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "OK")
-	})
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
-}
-
-// package main
-
-// import (
-// 	"fmt"
-// 	"log"
-// 	"net/http"
-
-// 	"github.com/apex/gateway"
-// )
-
-// func main() {
-// 	http.HandleFunc("/", hello)
-// 	log.Fatal(gateway.ListenAndServe(":3000", nil))
-// }
-
-func hello(w http.ResponseWriter, r *http.Request) {
-	// example retrieving values from the api gateway proxy request context.
-	requestContext, ok := gateway.RequestContext(r.Context())
-	if !ok || requestContext.Authorizer["sub"] == nil {
-		fmt.Fprint(w, "Hello World from Go")
-		return
-	}
-
-	userID := requestContext.Authorizer["sub"].(string)
-	fmt.Fprintf(w, "Hello %s from Go", userID)
 }

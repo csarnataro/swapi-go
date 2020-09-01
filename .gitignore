@@ -14,5 +14,6 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-# Directory created by `make` - `go build` step
+# Directories created by `make` - `go build` step
 functions/
+api/

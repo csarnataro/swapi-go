@@ -1,7 +1,9 @@
-build:
-	rm -rfv functions
-	mkdir -p functions
-	go get ./...
-	go build -o functions ./...
+NETLIFY_FUNCTION_DIR = api
 
-	cp -r data functions/
+build:
+	rm -rfv $(NETLIFY_FUNCTION_DIR)
+	mkdir -p $(NETLIFY_FUNCTION_DIR)
+	go get ./...
+	go build -o $(NETLIFY_FUNCTION_DIR) ./...
+
+	cp -r data $(NETLIFY_FUNCTION_DIR)/
