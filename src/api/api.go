@@ -8,6 +8,7 @@ import (
 
 	"github.com/apex/gateway" // <- gateway to AWS lambda functions
 	"github.com/csarnataro/swapi-go/src/films"
+	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
@@ -20,20 +21,18 @@ func main() {
 		listener = http.ListenAndServe
 	}
 
-	// listener.
-	// router := httprouter.New()
+	router := httprouter.New()
 
-	// router.GET("/hello/:name", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// 	fmt.Fprintf(w, "Hello, %s!\n", ps.ByName("name"))
-	// })
+	router.GET("/hello/:name", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		fmt.Fprintf(w, "Hello, %s!\n", ps.ByName("name"))
+	})
 
-	// router.GET("/films", films.Handler)
-	// router.GET("/films/:id", film.Handler)
+	router.GET("/films", films.Handler)
 
-	// router.GET("/", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// 	fmt.Fprintf(w, "It works!\n")
-	// })
-	http.HandleFunc("/", films.Handler)
+	router.GET("/healthcheck", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		fmt.Fprintf(w, "OK\n")
+	})
+
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
 }
