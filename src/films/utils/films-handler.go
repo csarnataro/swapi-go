@@ -42,7 +42,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 	if ex == "" {
 		ex = "."
 	}
-	exPath := path.Join(ex, "data", "films.json")
+	exPath := path.Join(ex, "functions", "data", "films.json")
 
 	content, err := ioutil.ReadFile(exPath)
 	if err != nil {
