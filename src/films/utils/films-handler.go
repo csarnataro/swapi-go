@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"path/filepath"
 	"strconv"
 
 	"github.com/csarnataro/swapi-go/src/constants"
@@ -42,6 +43,19 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 	if ex == "" {
 		ex = "."
 	}
+
+	err := filepath.Walk(".",
+		func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			fmt.Println(path, info.Size())
+			return nil
+		})
+	if err != nil {
+		log.Println(err)
+	}
+
 	exPath := path.Join(ex, "functions", "data", "films.json")
 
 	content, err := ioutil.ReadFile(exPath)
