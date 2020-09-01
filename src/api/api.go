@@ -33,6 +33,9 @@ func main() {
 		fmt.Fprintf(w, "OK\n")
 	})
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "It Works!")
+	})
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
 }
