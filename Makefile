@@ -1,11 +1,17 @@
+THIS_FILE := $(lastword $(MAKEFILE_LIST))
 NETLIFY_FUNCTION_DIR = functions
 
+.PHONY: build
 build:
-	rm -rfv $(NETLIFY_FUNCTION_DIR)
-	mkdir -p $(NETLIFY_FUNCTION_DIR)
-	cp -r data $(NETLIFY_FUNCTION_DIR)
+	@$(MAKE) -f $(THIS_FILE) clean
+	-mkdir -p $(NETLIFY_FUNCTION_DIR)
 	
+	go generate src/films/utils/films-handler.go
 	go get ./...
 	go build -o $(NETLIFY_FUNCTION_DIR) ./...
 
-	ls -lRa $(NETLIFY_FUNCTION_DIR)
+
+.PHONY: clean
+clean:
+	-rm -rfv $(NETLIFY_FUNCTION_DIR)
+	-rm src/films/utils/generated-films.go

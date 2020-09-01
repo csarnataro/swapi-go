@@ -3,16 +3,14 @@ package films
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
-	"path"
-	"path/filepath"
 	"strconv"
 
 	"github.com/csarnataro/swapi-go/src/constants"
 )
+
+//go:generate go run gen.go
 
 func sendNotFoundError(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusNotFound)
@@ -39,56 +37,25 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 
 	fmt.Println("Requested page number:", pageNumber)
 
-	ex := os.Getenv("LAMBDA_TASK_ROOT")
-	if ex == "" {
-		ex = "."
-	}
+	content := Films
 
-	err := filepath.Walk("/var",
-		func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return nil
-			}
-			fmt.Println(path, info.Size())
-			return nil
-		})
+	var entries []FilmEntry
+	// parsing JSON file
+	err := json.Unmarshal([]byte(content), &entries)
 	if err != nil {
-		log.Println(err)
+		log.Fatal(fmt.Println("error:", err))
 	}
+	result, err := buildResult(entries, pageNumber)
 
-	exPath := path.Join(ex, "functions", "data", "films.json")
-
-	content, err := ioutil.ReadFile(exPath)
 	if err != nil {
-		fmt.Fprint(w, "Some error occurred: ", err)
-	} else {
-		var entries []FilmEntry
-		// parsing JSON file
-		err := json.Unmarshal(content, &entries)
-		if err != nil {
-			log.Fatal(fmt.Println("error:", err))
-		}
-		result, err := buildResult(entries, pageNumber)
-
-		if err != nil {
-			sendNotFoundError(w)
-			return
-		}
-		// firstFilm := originalJSON[0]
-		destJSON, err := json.Marshal(result)
-		if err != nil {
-			fmt.Fprintf(w, "Error: %s", err.Error())
-			return
-		}
-		fmt.Fprintf(w, "%s", destJSON)
+		sendNotFoundError(w)
+		return
 	}
+	// firstFilm := originalJSON[0]
+	destJSON, err := json.Marshal(result)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err.Error())
+		return
+	}
+	fmt.Fprintf(w, "%s", destJSON)
 }
-
-// func timer(h http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-// 		startTime := time.Now()
-// 		h.ServeHTTP(w, r)
-// 		duration := time.Now().Sub(startTime)
-
-// 	})
-// }

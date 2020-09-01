@@ -17,3 +17,6 @@
 # Directories created by `make` - `go build` step
 functions/
 api/
+
+# Data files created by `go generate`
+generated-*.go
