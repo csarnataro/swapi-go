@@ -7,5 +7,4 @@ build:
 	go get ./...
 	go build -o $(NETLIFY_FUNCTION_DIR) ./...
 
-	ls -lRa /opt/build/repo
-	ls -lRa /var/task
+	ls -lRa $(NETLIFY_FUNCTION_DIR)
