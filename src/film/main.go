@@ -27,15 +27,18 @@ func main() {
 	// 	fmt.Fprintf(w, "Hello, %s!\n", ps.ByName("name"))
 	// })
 
-	http.HandleFunc("/", film.Handler)
-
 	// router.GET("/healthcheck", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// 	fmt.Fprintf(w, "OK\n")
 	// })
 
-	http.HandleFunc("/ok", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", film.Handler)
+
+	mux.HandleFunc("/ok", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "OK")
 	})
+
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
 }
