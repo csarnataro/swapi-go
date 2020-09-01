@@ -7,4 +7,5 @@ require (
 	github.com/aws/aws-lambda-go v1.19.0 // indirect
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/tj/assert v0.0.3 // indirect
 )

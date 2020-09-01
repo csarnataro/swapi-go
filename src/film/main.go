@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/apex/gateway" // <- gateway to AWS lambda functions
-	"github.com/csarnataro/swapi-go/src/films"
-	"github.com/julienschmidt/httprouter"
+	film "github.com/csarnataro/swapi-go/src/film/utils"
+	// "github.com/julienschmidt/httprouter"
 )
 
 func main() {
@@ -21,17 +21,17 @@ func main() {
 		listener = http.ListenAndServe
 	}
 
-	router := httprouter.New()
+	// router := httprouter.New()
 
-	router.GET("/hello/:name", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		fmt.Fprintf(w, "Hello, %s!\n", ps.ByName("name"))
-	})
+	// router.GET("/hello/:name", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	// 	fmt.Fprintf(w, "Hello, %s!\n", ps.ByName("name"))
+	// })
 
-	router.GET("/films", films.Handler)
+	http.HandleFunc("/", film.Handler)
 
-	router.GET("/healthcheck", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		fmt.Fprintf(w, "OK\n")
-	})
+	// router.GET("/healthcheck", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	// 	fmt.Fprintf(w, "OK\n")
+	// })
 
 	http.HandleFunc("/ok", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "OK")
