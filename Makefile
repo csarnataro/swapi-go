@@ -1,4 +1,4 @@
-NETLIFY_FUNCTION_DIR = api
+NETLIFY_FUNCTION_DIR = functions
 
 build:
 	rm -rfv $(NETLIFY_FUNCTION_DIR)
