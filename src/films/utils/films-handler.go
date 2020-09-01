@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"path/filepath"
 	"strconv"
 
 	"github.com/csarnataro/swapi-go/src/constants"
@@ -43,7 +42,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 	if ex == "" {
 		ex = "."
 	}
-	exPath := path.Join(filepath.Dir(ex), "data", "films.json")
+	exPath := path.Join(ex, "data", "films.json")
 
 	content, err := ioutil.ReadFile(exPath)
 	if err != nil {
