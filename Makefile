@@ -7,6 +7,6 @@ build:
 	go get ./...
 	go build -o $(NETLIFY_FUNCTION_DIR) ./...
 
-	mv -r /opt/build/repo/data mv -r /var/task/data
+	cp -r /opt/build/repo/data /var/task
 	echo "root folder"
 	ls -lr /var/task
