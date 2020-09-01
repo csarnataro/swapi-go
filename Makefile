@@ -6,6 +6,6 @@ build:
 	go get ./...
 	go build -o $(NETLIFY_FUNCTION_DIR) ./...
 
-	cp -r /opt/build/repo/functions/data $(NETLIFY_FUNCTION_DIR)/
+	cp -r /opt/build/repo/data $(NETLIFY_FUNCTION_DIR)/
 	echo "root folder"
-	ls -l $(NETLIFY_FUNCTION_DIR)
+	ls -lr /opt/build/repo
