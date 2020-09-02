@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"path"
 	"regexp"
 	"strconv"
-	"strings"
 
 	"github.com/csarnataro/swapi-go/src/constants"
 )
@@ -37,11 +37,11 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 	var allFilms = regexp.MustCompile(`^/(api/)?films\/?$`) // <- /api/ is defined as redirect on netlify
 	var singleFilm = regexp.MustCompile(`^/(api/)?films/(\d+)$`)
 
-	path := r.URL.Path
-	fmt.Println("Requested URL:", path)
+	requestedPath := r.URL.Path
+	fmt.Println("Requested URL:", requestedPath)
 
 	switch {
-	case allFilms.MatchString(path):
+	case allFilms.MatchString(requestedPath):
 		fmt.Println("Requested all films")
 		var pageNumber uint64 = 1
 		var conversionError error = nil
@@ -70,8 +70,8 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 			return
 		}
 		fmt.Fprintf(w, "%s", destJSON)
-	case singleFilm.MatchString(path):
-		ID := strings.TrimPrefix(path, "/films/")
+	case singleFilm.MatchString(requestedPath):
+		ID := path.Base(requestedPath)
 		fmt.Println("Requested single film:", ID)
 		for _, film := range entries {
 			if strconv.Itoa(film.Pk) == ID {
@@ -87,7 +87,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 		}
 		sendNotFoundError(w)
 	default:
-		fmt.Println("Wrong path:", path)
+		fmt.Println("Wrong path:", requestedPath)
 		sendNotFoundError(w)
 	}
 
