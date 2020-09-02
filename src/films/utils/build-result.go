@@ -28,21 +28,22 @@ func getPage(films []models.Film, pageNumber uint64) ([]models.Film, error) {
 	return films[min:max], nil
 }
 
-func getURLs(coll []int, entityType string) []string {
+func getURLs(serverName string, coll []int, entityType string) []string {
 	var result []string
 	for _, ID := range coll {
-		result = append(result, constants.BaseURL+"/api/"+entityType+"/"+strconv.Itoa(ID))
+		result = append(result, serverName+"/api/"+entityType+"/"+strconv.Itoa(ID))
 	}
 	return result
 }
 
-func buildResult(entries []FilmEntry, pageNumber uint64) (models.FilmPage, error) {
-	var result = models.FilmPage{}
-	result.Count = len(entries)
+func buildResult(entries []FilmEntry, serverName string, pageNumber uint64) (models.FilmPage, error) {
+	numOfResults := len(entries)
+	result := models.FilmPage{}
+	result.Count = numOfResults
 
 	var films []models.Film
 	for _, entry := range entries {
-		thisFilm := buildFilm(entry)
+		thisFilm := buildFilm(entry, serverName)
 		films = append(films, thisFilm)
 	}
 
@@ -52,12 +53,16 @@ func buildResult(entries []FilmEntry, pageNumber uint64) (models.FilmPage, error
 		result.Previous = nil
 	} else {
 		previous := strconv.Itoa(int(pageNumber - 1))
-		previousURL := constants.BaseURL + "/api/films?page=" + previous
+		previousURL := serverName + "/api/films?page=" + previous
 		result.Previous = &previousURL
 	}
 
-	next := strconv.Itoa(int(pageNumber))
-	result.Next = &next
+	if numOfResults < 5 {
+		result.Next = nil
+	} else {
+		nextPageIndex := strconv.Itoa(int(pageNumber) + 1)
+		result.Next = &nextPageIndex
+	}
 
 	if err != nil {
 		return models.FilmPage{}, err
@@ -66,21 +71,21 @@ func buildResult(entries []FilmEntry, pageNumber uint64) (models.FilmPage, error
 	return result, nil
 }
 
-func buildFilm(entry FilmEntry) models.Film {
+func buildFilm(entry FilmEntry, serverName string) models.Film {
 
 	var thisFilm = models.Film{}
-	thisFilm.URL = constants.BaseURL + "/api/films/" + strconv.Itoa(entry.Pk)
+	thisFilm.URL = serverName + "/api/films/" + strconv.Itoa(entry.Pk)
 	thisFilm.Title = entry.Fields.Title
 	thisFilm.Director = entry.Fields.Director
 	thisFilm.EpisodeID = entry.Fields.EpisodeID
 	thisFilm.OpeningCrawl = entry.Fields.OpeningCrawl
 	thisFilm.ReleaseDate = entry.Fields.ReleaseDate
 
-	thisFilm.Characters = getURLs(entry.Fields.Characters, "people")
-	thisFilm.Planets = getURLs(entry.Fields.Planets, "planets")
-	thisFilm.Starships = getURLs(entry.Fields.Starships, "starships")
-	thisFilm.Vehicles = getURLs(entry.Fields.Vehicles, "vehicles")
-	thisFilm.Species = getURLs(entry.Fields.Species, "species")
+	thisFilm.Characters = getURLs(serverName, entry.Fields.Characters, "people")
+	thisFilm.Planets = getURLs(serverName, entry.Fields.Planets, "planets")
+	thisFilm.Starships = getURLs(serverName, entry.Fields.Starships, "starships")
+	thisFilm.Vehicles = getURLs(serverName, entry.Fields.Vehicles, "vehicles")
+	thisFilm.Species = getURLs(serverName, entry.Fields.Species, "species")
 
 	return thisFilm
 }

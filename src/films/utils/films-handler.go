@@ -19,6 +19,14 @@ func sendNotFoundError(w http.ResponseWriter) {
 	fmt.Fprint(w, constants.NotFoundJSON)
 }
 
+func getServerName(request *http.Request) string {
+	protocol := "http"
+	if request.TLS != nil {
+		protocol = "https"
+	}
+	return protocol + "://" + request.Host
+}
+
 // Handler returns the full list of films
 func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
@@ -34,11 +42,10 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 
 	// differentiating all films request from single film request
 
-	var allFilms = regexp.MustCompile(`^/(api/)?films\/?$`) // <- /api/ is defined as redirect on netlify
-	var singleFilm = regexp.MustCompile(`^/(api/)?films/(\d+)$`)
+	var allFilms = regexp.MustCompile(`^/api/films\/?$`) // <- /api/ is defined as redirect on netlify
+	var singleFilm = regexp.MustCompile(`^/api/films/(\d+)$`)
 
 	requestedPath := r.URL.Path
-	fmt.Println("Requested URL:", requestedPath)
 
 	switch {
 	case allFilms.MatchString(requestedPath):
@@ -58,7 +65,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 
 		fmt.Println("Requested page number:", pageNumber)
 
-		result, err := buildResult(entries, pageNumber)
+		result, err := buildResult(entries, getServerName(r), pageNumber)
 
 		if err != nil {
 			sendNotFoundError(w)
@@ -75,7 +82,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 		fmt.Println("Requested single film:", ID)
 		for _, film := range entries {
 			if strconv.Itoa(film.Pk) == ID {
-				result := buildFilm(film)
+				result := buildFilm(film, getServerName(r))
 				destJSON, err := json.Marshal(result)
 				if err != nil {
 					fmt.Fprintf(w, "Error: %s", err.Error())

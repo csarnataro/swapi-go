@@ -1,7 +1,7 @@
 package constants
 
 // BaseURL is the base for all URLs in JSON responses
-const BaseURL = "http://localhost:8001"
+// const BaseURL = "http://localhost:8001"
 
 // NotFoundJSON is the JSON sent when there are no results (e.g. because of pagination overflow)
 const NotFoundJSON = "{\"detail\": \"Not found\"}"

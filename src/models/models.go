@@ -21,7 +21,7 @@ type Film struct {
 // (e.g. pagination links)
 type FilmPage struct {
 	Count    int     `json:"count"`
-	Previous *string `json:"previous"`
-	Next     *string `json:"next"`
+	Previous *string `json:"previous"` // it's a pointer because it can be nil
+	Next     *string `json:"next"`     // it's a pointer because it can be nil
 	Results  []Film  `json:"results"`
 }
