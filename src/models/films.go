@@ -17,9 +17,9 @@ type Film struct {
 	URL          string   `json:"url,omitempty"`
 }
 
-// FilmPage is the final feed with all the films and related metadata
+// FilmsPage is the final feed with all the films and related metadata
 // (e.g. pagination links)
-type FilmPage struct {
+type FilmsPage struct {
 	Count    int     `json:"count"`
 	Previous *string `json:"previous"` // it's a pointer because it can be nil
 	Next     *string `json:"next"`     // it's a pointer because it can be nil

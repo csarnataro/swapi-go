@@ -36,9 +36,9 @@ func getURLs(serverName string, coll []int, entityType string) []string {
 	return result
 }
 
-func buildResult(entries []FilmEntry, serverName string, pageNumber uint64) (models.FilmPage, error) {
+func buildResult(entries []FilmEntry, serverName string, pageNumber uint64) (models.FilmsPage, error) {
 	numOfResults := len(entries)
-	result := models.FilmPage{}
+	result := models.FilmsPage{}
 	result.Count = numOfResults
 
 	var films []models.Film
@@ -65,7 +65,7 @@ func buildResult(entries []FilmEntry, serverName string, pageNumber uint64) (mod
 	}
 
 	if err != nil {
-		return models.FilmPage{}, err
+		return models.FilmsPage{}, err
 	}
 	result.Results = resultPage
 	return result, nil

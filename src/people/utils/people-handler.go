@@ -1,4 +1,4 @@
-package films
+package people
 
 import (
 	"encoding/json"
@@ -33,9 +33,9 @@ func getServerName(request *http.Request) string {
 func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
 
-	content := Films
+	content := People
 
-	var entries []FilmEntry
+	var entries []PersonEntry
 	// parsing JSON file
 	err := json.Unmarshal([]byte(content), &entries)
 	if err != nil {
@@ -44,13 +44,13 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 
 	// differentiating all films request from single film request
 
-	var allFilms = regexp.MustCompile(`^/api/films\/?$`) // <- /api/ is defined as redirect on netlify
-	var singleFilm = regexp.MustCompile(`^/api/films/(\d+)$`)
+	var allPeople = regexp.MustCompile(`^/api/people\/?$`) // <- /api/ is defined as redirect on netlify
+	var singlePerson = regexp.MustCompile(`^/api/people/(\d+)$`)
 
 	requestedPath := r.URL.Path
 
 	switch {
-	case allFilms.MatchString(requestedPath):
+	case allPeople.MatchString(requestedPath):
 		fmt.Println("Requested all films")
 		var pageNumber uint64 = 1
 		var conversionError error = nil
@@ -79,12 +79,12 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 			return
 		}
 		fmt.Fprintf(w, "%s", destJSON)
-	case singleFilm.MatchString(requestedPath):
+	case singlePerson.MatchString(requestedPath):
 		ID := path.Base(requestedPath)
-		fmt.Println("Requested single film:", ID)
-		for _, film := range entries {
-			if strconv.Itoa(film.Pk) == ID {
-				result := buildFilm(film, getServerName(r))
+		fmt.Println("Requested single person:", ID)
+		for _, person := range entries {
+			if strconv.Itoa(person.Pk) == ID {
+				result := buildPerson(person, getServerName(r))
 				destJSON, err := json.Marshal(result)
 				if err != nil {
 					fmt.Fprintf(w, "Error: %s", err.Error())
