@@ -34,8 +34,8 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 
 	// differentiating all films request from single film request
 
-	var allFilms = regexp.MustCompile(`/films\/?$`)
-	var singleFilm = regexp.MustCompile(`^/films/(\d+)$`)
+	var allFilms = regexp.MustCompile(`^/(api/)?films\/?$`) // <- /api/ is defined as redirect on netlify
+	var singleFilm = regexp.MustCompile(`^/(api/)?films/(\d+)$`)
 
 	path := r.URL.Path
 	fmt.Println("Requested URL:", path)
