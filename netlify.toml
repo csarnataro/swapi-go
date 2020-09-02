@@ -15,3 +15,8 @@
   from = "/api/films"
   to = "/.netlify/functions/films/"
   status = 200
+
+[[redirects]]
+  from = "/api/films/*"
+  to = "/.netlify/functions/films/:splat"
+  status = 200
