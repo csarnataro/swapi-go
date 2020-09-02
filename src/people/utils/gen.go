@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const FILENAME = "../../../data/people.json"
+const FILENAME = "../../data/people.json"
 
 // This program generates people.go. It can be invoked by running
 // go generate
@@ -19,7 +19,7 @@ func main() {
 	content, err := ioutil.ReadFile(FILENAME)
 	die(err)
 
-	f, err := os.Create("generated-people.go")
+	f, err := os.Create("utils/generated-people.go")
 	die(err)
 
 	packageTemplate.Execute(f, struct {

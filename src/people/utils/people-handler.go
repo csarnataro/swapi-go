@@ -13,8 +13,6 @@ import (
 	"github.com/csarnataro/swapi-go/src/constants"
 )
 
-//go:generate go run gen.go
-
 func sendNotFoundError(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusNotFound)
 	fmt.Fprint(w, constants.NotFoundJSON)

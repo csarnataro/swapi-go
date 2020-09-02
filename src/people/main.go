@@ -10,6 +10,8 @@ import (
 	people "github.com/csarnataro/swapi-go/src/people/utils"
 )
 
+//go:generate go run utils/gen.go
+
 func main() {
 	port := flag.Int("port", -1, "specify a port to use http rather than AWS Lambda")
 	flag.Parse()
@@ -20,7 +22,7 @@ func main() {
 		listener = http.ListenAndServe
 	}
 
-	http.HandleFunc("/", people	.Handler)
+	http.HandleFunc("/", people.Handler)
 
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
