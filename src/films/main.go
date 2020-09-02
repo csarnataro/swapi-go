@@ -8,7 +8,6 @@ import (
 
 	"github.com/apex/gateway" // <- gateway to AWS lambda functions
 	films "github.com/csarnataro/swapi-go/src/films/utils"
-	// "github.com/julienschmidt/httprouter"
 )
 
 func main() {

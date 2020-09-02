@@ -42,19 +42,7 @@ func buildResult(entries []FilmEntry, pageNumber uint64) (models.FilmPage, error
 
 	var films []models.Film
 	for _, entry := range entries {
-		var thisFilm = models.Film{}
-		thisFilm.URL = constants.BaseURL + "/api/films/" + strconv.Itoa(entry.Pk)
-		thisFilm.Title = entry.Fields.Title
-		thisFilm.Director = entry.Fields.Director
-		thisFilm.EpisodeID = entry.Fields.EpisodeID
-		thisFilm.OpeningCrawl = entry.Fields.OpeningCrawl
-		thisFilm.ReleaseDate = entry.Fields.ReleaseDate
-
-		thisFilm.Characters = getURLs(entry.Fields.Characters, "people")
-		thisFilm.Planets = getURLs(entry.Fields.Planets, "planets")
-		thisFilm.Starships = getURLs(entry.Fields.Starships, "starships")
-		thisFilm.Vehicles = getURLs(entry.Fields.Vehicles, "vehicles")
-		thisFilm.Species = getURLs(entry.Fields.Species, "species")
+		thisFilm := buildFilm(entry)
 		films = append(films, thisFilm)
 	}
 
@@ -76,4 +64,23 @@ func buildResult(entries []FilmEntry, pageNumber uint64) (models.FilmPage, error
 	}
 	result.Results = resultPage
 	return result, nil
+}
+
+func buildFilm(entry FilmEntry) models.Film {
+
+	var thisFilm = models.Film{}
+	thisFilm.URL = constants.BaseURL + "/api/films/" + strconv.Itoa(entry.Pk)
+	thisFilm.Title = entry.Fields.Title
+	thisFilm.Director = entry.Fields.Director
+	thisFilm.EpisodeID = entry.Fields.EpisodeID
+	thisFilm.OpeningCrawl = entry.Fields.OpeningCrawl
+	thisFilm.ReleaseDate = entry.Fields.ReleaseDate
+
+	thisFilm.Characters = getURLs(entry.Fields.Characters, "people")
+	thisFilm.Planets = getURLs(entry.Fields.Planets, "planets")
+	thisFilm.Starships = getURLs(entry.Fields.Starships, "starships")
+	thisFilm.Vehicles = getURLs(entry.Fields.Vehicles, "vehicles")
+	thisFilm.Species = getURLs(entry.Fields.Species, "species")
+
+	return thisFilm
 }

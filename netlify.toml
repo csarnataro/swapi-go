@@ -5,3 +5,13 @@
 [build.environment]
   # Change this path with the path to your repository
   GO_IMPORT_PATH = "github.com/csarnataro/swapi-go"
+
+[[redirects]]
+  from = "/api/films/"
+  to = "/.netlify/functions/films/"
+  status = 200
+
+[[redirects]]
+  from = "/api/films"
+  to = "/.netlify/functions/films/"
+  status = 200
