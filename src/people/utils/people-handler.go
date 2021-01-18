@@ -8,30 +8,17 @@ import (
 	"path"
 	"regexp"
 	"strconv"
-	"strings"
 
-	"github.com/csarnataro/swapi-go/src/constants"
+	"github.com/csarnataro/swapi-go/src/utils"
+	"github.com/csarnataro/swapi-go/src/people/generated"
+
 )
-
-func sendNotFoundError(w http.ResponseWriter) {
-	w.WriteHeader(http.StatusNotFound)
-	fmt.Fprint(w, constants.NotFoundJSON)
-}
-
-func getServerName(request *http.Request) string {
-	protocol := "https"
-	// useful when developing in local env
-	if strings.Contains(request.Host, "localhost") || strings.Contains(request.Host, "127.0.0.1") {
-		protocol = "http"
-	}
-	return protocol + "://" + request.Host
-}
 
 // Handler returns the full list of films
 func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Params) {
 	w.Header().Set("Content-Type", "application/json")
 
-	content := People
+	content := generated.People
 
 	var entries []PersonEntry
 	// parsing JSON file
@@ -56,7 +43,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 		if page != "" {
 			pageNumber, conversionError = strconv.ParseUint(page, 10, 0)
 			if conversionError != nil {
-				sendNotFoundError(w)
+				utils.SendNotFoundError(w)
 				return
 			}
 		} else {
@@ -65,10 +52,10 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 
 		fmt.Println("Requested page number:", pageNumber)
 
-		result, err := buildResult(entries, getServerName(r), pageNumber)
+		result, err := buildResult(entries, utils.GetServerName(r), pageNumber)
 
 		if err != nil {
-			sendNotFoundError(w)
+			utils.SendNotFoundError(w)
 			return
 		}
 		destJSON, err := json.Marshal(result)
@@ -82,7 +69,7 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 		fmt.Println("Requested single person:", ID)
 		for _, person := range entries {
 			if strconv.Itoa(person.Pk) == ID {
-				result := buildPerson(person, getServerName(r))
+				result := buildPerson(person, utils.GetServerName(r))
 				destJSON, err := json.Marshal(result)
 				if err != nil {
 					fmt.Fprintf(w, "Error: %s", err.Error())
@@ -92,10 +79,10 @@ func Handler(w http.ResponseWriter, r *http.Request) { // , params httprouter.Pa
 				return
 			}
 		}
-		sendNotFoundError(w)
+		utils.SendNotFoundError(w)
 	default:
 		fmt.Println("Wrong path:", requestedPath)
-		sendNotFoundError(w)
+		utils.SendNotFoundError(w)
 	}
 
 	// fmt.Fprintf(w, `{"result": "ok"}`)

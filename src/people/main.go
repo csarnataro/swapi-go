@@ -10,7 +10,7 @@ import (
 	people "github.com/csarnataro/swapi-go/src/people/utils"
 )
 
-//go:generate go run utils/gen.go
+//go:generate go run ../generator/generate-models.go people
 
 func main() {
 	port := flag.Int("port", -1, "specify a port to use http rather than AWS Lambda")

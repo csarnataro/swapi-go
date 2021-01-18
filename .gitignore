@@ -19,4 +19,5 @@ functions/
 api/
 
 # Data files created by `go generate`
+generated/
 generated-*.go
