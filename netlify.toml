@@ -2,16 +2,17 @@
   command = "make build"
   functions = "functions"
   publish = "data"
+
 [build.environment]
-  # Change this path with the path to your repository
   GO_IMPORT_PATH = "github.com/csarnataro/swapi-go"
+
+[[redirects]]
+  from = "/api/:entity/:id"
+  to = "/.netlify/functions/api/:entity/:id"
+  status = 200
 
 [[redirects]]
   from = "/api/:entity"
   to = "/.netlify/functions/api/:entity"
   status = 200
 
-[[redirects]]
-  from = "/api/:entity/:id"
-  to = "/.netlify/functions/api/:entity/:id"
-  status = 200
