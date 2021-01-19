@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"io"
 	"net/http"
 
 	"github.com/apex/gateway" // <- gateway to AWS lambda functions
@@ -29,8 +30,17 @@ func main() {
 		listener = http.ListenAndServe
 	}
 
+	// In order to handle also `/people/1`, for some reason, I have to add both version, w/ and w/o trailing slash
+	// I'm parsing what's after `people` in the handler
+	http.HandleFunc("/api/people/", people.Handler)
 	http.HandleFunc("/api/people", people.Handler)
+	
+	http.HandleFunc("/api/films/", films.Handler)
 	http.HandleFunc("/api/films", films.Handler)
+	
+	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
+		io.WriteString(w, "It works!")
+	})
 
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
