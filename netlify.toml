@@ -7,6 +7,11 @@
   GO_IMPORT_PATH = "github.com/csarnataro/swapi-go"
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  from = "/api/:entity"
+  to = "/.netlify/functions/api/:entity"
+  status = 200
+
+[[redirects]]
+  from = "/api/:entity/:id"
+  to = "/.netlify/functions/api/:entity/:id"
   status = 200
