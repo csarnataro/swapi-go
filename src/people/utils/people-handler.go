@@ -10,7 +10,7 @@ import (
 	"strconv"
 
 	"github.com/csarnataro/swapi-go/src/utils"
-	"github.com/csarnataro/swapi-go/src/people/generated"
+	"github.com/csarnataro/swapi-go/generated/people"
 
 )
 

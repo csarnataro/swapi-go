@@ -8,7 +8,7 @@ Code for this initial draft is in the `develop` branch.
 
 Launch locally with command:
 ```
-$ go generate src/films/main.go && go run src/films/main.go -port=8001
+$ go generate src/api.go && go run src/api.go -port=8001 -port=8001
 ```
 
 Open your browser at [http://localhost:8001/api/films](http://localhost:8001/api/films)

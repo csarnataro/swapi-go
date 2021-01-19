@@ -23,12 +23,12 @@ func main() {
 	fmt.Printf("Running generator for %s\n", args)
 
 	entityType := args[0]
-	fullPath := "../../data/" + entityType + ".json"
+	fullPath := "../data/" + entityType + ".json"
 
 	content, err := ioutil.ReadFile(fullPath)
 	die(err)
 
-	generatedFolder := filepath.Join("..", entityType, "generated")
+	generatedFolder := filepath.Join("..", "generated", entityType)
 	os.MkdirAll(generatedFolder, os.ModePerm)
 	f, err := os.Create(generatedFolder + "/generated-" + entityType + ".go")
 	die(err)
