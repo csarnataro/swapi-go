@@ -7,31 +7,6 @@
   GO_IMPORT_PATH = "github.com/csarnataro/swapi-go"
 
 [[redirects]]
-  from = "/api/films/"
-  to = "/.netlify/functions/films/"
-  status = 200
-
-[[redirects]]
-  from = "/api/films"
-  to = "/.netlify/functions/films/"
-  status = 200
-
-[[redirects]]
-  from = "/api/films/*"
-  to = "/.netlify/functions/films/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/api/people/"
-  to = "/.netlify/functions/people/"
-  status = 200
-
-[[redirects]]
-  from = "/api/people"
-  to = "/.netlify/functions/people/"
-  status = 200
-
-[[redirects]]
-  from = "/api/people/*"
-  to = "/.netlify/functions/people/:splat"
+  from = "/api/*/"
+  to = "/.netlify/functions/api/:splat"
   status = 200
