@@ -29,8 +29,8 @@ func main() {
 		listener = http.ListenAndServe
 	}
 
-	http.HandleFunc("/api/people", people.Handler)
-	http.HandleFunc("/api/films", films.Handler)
+	http.HandleFunc("/people", people.Handler)
+	http.HandleFunc("/films", films.Handler)
 
 	fmt.Printf("Server listening on port %d...\n", *port)
 	log.Fatal(listener(portStr, nil))
